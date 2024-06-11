@@ -1,11 +1,14 @@
 import { PureComponent } from "react";
 import React from "react";
-// import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 // import logo from './logo.svg';
+import Home from "../Home/Home";
+import Header from "../Header/Header";
 import Login from "../Login/Login";
 // import log from "loglevel";
 import useToken from "./useToken";
 import './App.css';
+import { config } from "../../config";
 var constants = require("../../services/constants");
 
 class App extends PureComponent {
@@ -41,6 +44,7 @@ class App extends PureComponent {
 
     let {
       token,
+      tokenType,
       authActions,
     } = this.state;
 
@@ -49,7 +53,44 @@ class App extends PureComponent {
         <Login setCredentials={this.setCredentials} authActions={authActions} />
       );
     }
+
+    // handle 'regular' user routes
+    if (tokenType === constants.TOKEN_TYPE_NATIVE) {
+      return (
+        <div className="wrapper">
+          <Header
+            version={this.reactVersion}
+            authActions={authActions}
+          />
+          <Routes>
+            <Route
+              path={`${config.APP_BASEPATH}`}
+              element={<Home authActions={authActions} />}
+            />
+            <Route
+              path={`${config.APP_BASEPATH}/home`}
+              element={<Home authActions={authActions} />}
+            />
+            <Route path="*" element={<NoMatch />} />
+          </Routes>
+        </div>
+      );
+    } else {
+      return <></>;
+    }    
   }
+}
+
+function NoMatch() {
+  let location = useLocation();
+
+  return (
+    <div>
+      <h4>
+        Page not found <code>{location.pathname}</code>
+      </h4>
+    </div>
+  );
 }
 
 /*

@@ -1,9 +1,17 @@
-import styled from "styled-components";
-import { DARK_BLUE, WHITE, BLUE, BLUE_GREY } from "../../shared/colors";
+import styled from 'styled-components';
+import { DARK_BLUE, WHITE, BLUE, BLUE_GREY } from '../../shared/colors';
+
+export const VersionWrapper = styled.div`
+  font-size: 16px;
+  color: #0089ec;
+  align-items: right;
+  min-width: 100px;
+`;
 
 export const HeaderWrapper = styled.header`
   background-color: ${WHITE};
   min-height: 4vh;
+  font-size: calc(10px + 2vmin);
   color: ${BLUE};
   .route-link {
     font-size: 1rem;
@@ -16,17 +24,6 @@ export const HeaderWrapper = styled.header`
     align-items: center;
     padding: 5px 10px;
   }
-`;
-
-export const CenterPlaceholder = styled.div`
-  width: 100%;
-`;
-
-export const VersionWrapper = styled.div`
-  font-size: 16px;
-  color: #0089ec;
-  align-items: right;
-  min-width: 140px;
 `;
 
 export const Logo = styled.div`

@@ -12,6 +12,7 @@
     "lodash.merge": "^4.6.2",
     "loglevel": "^1.8.1",
     "query-string": "^7.0.1",
+    "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.1",
     "react-css-modules": "^4.7.11",
     "react-dev-utils": "^12.0.1",
@@ -21,7 +22,7 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1",
-    "react": "^17.0.2",
+    "styled-components": "^6.1.11",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -47,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

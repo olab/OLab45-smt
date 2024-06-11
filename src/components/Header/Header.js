@@ -1,100 +1,62 @@
 // @flow
-import React from "react";
-import { Link } from "react-router-dom";
-import { LinearProgress, Button } from "@material-ui/core";
-import { ReactComponent as LogoIcon } from "../../shared/assets/icons/olab4_logo.svg";
-import {
-  Logo,
-  HeaderWrapper,
-  FakeProgress,
-  CenterPlaceholder,
-  VersionWrapper,
-} from "./styles";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button, LinearProgress } from '@material-ui/core';
 
-const Header = ({ version, authActions, isScreenBusy, externalPlay }) => {
-  const [logoutDialogOpen, toggleLogoutDialogOpen] = React.useReducer(
-    (state) => !state,
-    false
-  );
+import NavigationBar from './NavigationBar/NavigationBar';
+import LogoIcon from '../../shared/assets/icons/olab4_logo.svg';
 
-  return (
-    <>
-      <HeaderWrapper>
-        <div>
-          <Link to={`${process.env.PUBLIC_URL}/`} className="route-link">
-            <Logo>
-              <LogoIcon />
-              <h1>OLab4</h1>
-            </Logo>
-          </Link>
-          <CenterPlaceholder>&nbsp;</CenterPlaceholder>
-          {authActions && (
-            <>
-              <VersionWrapper>
-                User: {authActions.getUserName()}
-                <br />
-                Version: {version}
-              </VersionWrapper>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="large"
-                aria-label="Return to Home"
-                onClick={() =>
-                  externalPlay ? toggleLogoutDialogOpen() : authActions.logout()
-                }
-              >
-                &nbsp;Logout&nbsp;
-              </Button>
-            </>
-          )}
-          {/* {!authActions && (
-            <VersionWrapper>
-              User: anonymous
-              <br />
-              Version: {version}
-            </VersionWrapper>
-          )} */}
-        </div>
-        {isScreenBusy ? <LinearProgress /> : <FakeProgress />}
-      </HeaderWrapper>
+import type { IHeaderProps } from './types';
 
-      <Dialog
-        open={logoutDialogOpen}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+import { Logo, HeaderWrapper, FakeProgress, VersionWrapper } from './styles';
+
+const Header = ({ handleLogout, isDataFetching }: IHeaderProps) => (
+  <HeaderWrapper>
+    <div>
+      <Link to="/" className="route-link">
+        <Logo>
+          <LogoIcon />
+          <h1>OLab4</h1>
+        </Logo>
+      </Link>
+      <NavigationBar />
+      <VersionWrapper>
+        <small>{process.env.npm_package_version}</small>
+      </VersionWrapper>
+      <Button
+        variant="outlined"
+        color="primary"
+        size="large"
+        aria-label="Return to Home"
+        onClick={() => {
+          handleLogout();
+        }}
       >
-        <DialogTitle id="alert-dialog-title">
-          Are you sure you want to sign out?
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Any progress you have made may be discarded.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => toggleLogoutDialogOpen()}
-            color="primary"
-            autoFocus
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => (toggleLogoutDialogOpen(), authActions.logout())}
-            color="secondary"
-          >
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
-  );
-};
+        &nbsp;Logout&nbsp;
+      </Button>
+    </div>
+    {isDataFetching ? <LinearProgress /> : <FakeProgress />}
+  </HeaderWrapper>
+);
 
-export default Header;
+const mapStateToProps = ({
+  user,
+  map,
+  mapDetails,
+  scopedObjects,
+  counterGrid,
+}) => ({
+  isDataFetching:
+    user.isFetching ||
+    map.isFetching ||
+    map.isUpdating ||
+    map.isDeleting ||
+    mapDetails.isFetching ||
+    counterGrid.isFetching ||
+    scopedObjects.isCreating ||
+    scopedObjects.isUpdating ||
+    scopedObjects.isDeleting,
+});
+
+export default connect(mapStateToProps)(Header);
