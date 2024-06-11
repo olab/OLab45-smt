@@ -5,15 +5,13 @@ import {
   Button,
   FormControl,
   Input,
-  Backdrop,
   CircularProgress,
   InputLabel,
   Paper,
-  Typography,
   Snackbar,
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
-import { Log, LogInfo, LogError } from "../../utils/Logger";
+import { LogError } from "../../utils/Logger";
 // import log from "loglevel";
 import styles from "./styles";
 // import { config } from "../../config";
@@ -73,7 +71,7 @@ const Login = ({ setCredentials, message, authActions, classes }) => {
         throw new Error("Unable to Login");
       }
 
-      if (data.error_code == 401) {
+      if (data.error_code === 401) {
         showError(data.data);
       } else {
         if (data.data.authInfo) {
@@ -106,7 +104,7 @@ const Login = ({ setCredentials, message, authActions, classes }) => {
             <center>
               <LogoIcon />
             </center>
-            OLab4
+            OLab4 SMT
           </div>
           {inProgress && (
             <div>
