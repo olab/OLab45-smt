@@ -8,9 +8,9 @@ import {
   incrementIfOdd,
   selectCount,
 } from './reducers';
-import styles from './Counter.module.css';
+import styles from './Home.module.css';
 
-export function Counter() {
+export function Home() {
   const count = useSelector(selectCount);
   const dispatch = useDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
